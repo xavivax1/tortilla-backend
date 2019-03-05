@@ -7,7 +7,8 @@
     "extends": "standard",
     "globals": {
       "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly"
+      "SharedArrayBuffer": "readonly",
+      "fetch": true
     },
     "parserOptions": {
       "ecmaVersion": 2018
