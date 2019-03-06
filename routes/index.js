@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+
+
+
+
+
 const Tortilla = require('../models/Tortilla');
 
 const { requireUser } = require('../middlewares/auth');
@@ -11,6 +16,7 @@ const parser = require('../helpers/file-upload');
 router.get('/', async (req, res, next) => {
   try {
     const tortillas = await Tortilla.find();
+    console.log(tortillas)
     res.render('tortillas/list', { tortillas });
   } catch (error) {
     next(error);
@@ -18,8 +24,26 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/new', requireUser, (req, res, next) => {
+  console.log(req)
   res.render('tortillas/create-edit');
 });
+
+
+router.get('/tortillas/:id', requireUser, parser.single('image'), async (req, res, next) => {
+  const { id } = req.params;
+  const { _id } = req.session.currentUser;
+  try {
+    const tortilla = await Tortilla.findById(id).populate('creator');
+    let isCreator = false;
+    if (tortilla.creator.equals(_id)) {
+      isCreator = true;
+    }
+    res.render('tortillas/detail', { tortilla, isCreator });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 router.post('/', requireUser, parser.single('image'), async (req, res, next) => {
   const { _id, name, special, size, longitude, latitude } = req.body;
@@ -46,27 +70,19 @@ router.post('/', requireUser, parser.single('image'), async (req, res, next) => 
   }
 });
 
-router.get('/tortillas/:id', requireUser, parser.single('image'), async (req, res, next) => {
-  const { id } = req.params;
-  const { _id } = req.session.currentUser;
-  try {
-    const tortilla = await Tortilla.findById(id).populate('creator');
-    let isCreator = false;
-    if (tortilla.creator.equals(_id)) {
-      isCreator = true;
-    }
-    res.render('tortillas/detail', { tortilla, isCreator });
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.get('/tortillas/:id/edit', requireUser, async (req, res, next) => {
   const { id } = req.params;
   const { _id } = req.session.currentUser;
   try {
     const tortilla = await Tortilla.findById(id);
     if (!tortilla.creator.equals(_id)) {
+
+
+
+
+
+
+      
       res.redirect('/');
       return;
     }
