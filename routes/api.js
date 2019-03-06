@@ -22,4 +22,21 @@ router.get('/tortillas', async (req, res, next) => {
   }
 });
 
+router.post('/tortillas/create', async (req, res, next) => {
+  const tortilla = req.body;
+  if (!tortilla.size || !tortilla.name || !tortilla.special) {
+    res.status(400);
+    res.json({ message: 'Make sure you include name, size and special' });
+    return;
+  }
+  tortilla.creator = '5c7d2abb9fc74a334e09d74e';
+  try {
+    await Tortilla.create(tortilla);
+    res.status(204);
+    res.json();
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
