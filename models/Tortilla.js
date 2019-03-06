@@ -6,10 +6,6 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const tortillaSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
   special: {
     type: String
   },
@@ -20,6 +16,10 @@ const tortillaSchema = new Schema({
   creator: {
     type: ObjectId,
     ref: 'User'
+  },
+  name: {
+    type: String,
+    required: true
   },
   location: {
     type: {
