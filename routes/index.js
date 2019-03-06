@@ -27,6 +27,7 @@ router.get('/tortillas/:id', requireUser, parser.single('image'), async (req, re
 router.get('/', async (req, res, next) => {
   try {
     const tortillas = await Tortilla.find();
+    console.log(tortillas);
     res.render('tortillas/list', { tortillas });
   } catch (error) {
     next(error);
@@ -34,6 +35,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/new', requireUser, (req, res, next) => {
+  console.log(req);
   res.render('tortillas/create-edit');
 });
 
