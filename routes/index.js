@@ -5,6 +5,8 @@ const Tortilla = require('../models/Tortilla');
 
 const { requireUser } = require('../middlewares/auth');
 
+const parser = require('../helpers/file-upload');
+
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   try {
@@ -19,7 +21,7 @@ router.get('/new', requireUser, (req, res, next) => {
   res.render('tortillas/create-edit');
 });
 
-router.post('/', requireUser, async (req, res, next) => {
+router.post('/', requireUser, parser.single('image'), async (req, res, next) => {
   const { _id, name, special, size, longitude, latitude } = req.body;
   const tortilla = {
     name,
@@ -28,7 +30,8 @@ router.post('/', requireUser, async (req, res, next) => {
     location: {
       type: 'Point',
       coordinates: [longitude, latitude]
-    }
+    },
+    imageUrl: req.file.url
   };
   try {
     if (_id) {
@@ -43,7 +46,7 @@ router.post('/', requireUser, async (req, res, next) => {
   }
 });
 
-router.get('/tortillas/:id', requireUser, async (req, res, next) => {
+router.get('/tortillas/:id', requireUser, parser.single('image'), async (req, res, next) => {
   const { id } = req.params;
   const { _id } = req.session.currentUser;
   try {

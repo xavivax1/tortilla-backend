@@ -3,7 +3,7 @@
 <p>Size: {{tortilla.size}}</p>
 <p>Created by: {{tortilla.creator.username}}</p>
 
-<p>{{tortilla.location.coordinates}}</p>
+<p class="coordinates">{{tortilla.location.coordinates}}</p>
 
 {{#if isCreator}}
 <a href="/tortillas/{{tortilla._id}}/edit">Editar Tortilla</a>
@@ -11,6 +11,8 @@
   <button type="submit">Borrar tortilla</button>
 </form>
 {{/if }}
+
+<img src="{{tortilla.imageUrl}}" alt="">
 
 
 <div id="map">

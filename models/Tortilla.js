@@ -27,6 +27,9 @@ const tortillaSchema = new Schema({
       default: 'Point'
     },
     coordinates: [Number]
+  },
+  imageUrl: {
+    type: String
   }
 });
 

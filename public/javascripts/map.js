@@ -11,9 +11,49 @@ const main = () => {
 
   const map = new mapboxgl.Map(mapOptions);
 
-  // Cambiar el centro y el zoom del mapa para tu ubicacion
-  // anadir las coordenadas en el template
-  // anadir un marker con la coordenadas de la tortilla
+  if (!navigator.geolocation) {
+    console.log('Geolocation is not supported by your browser');
+  } else {
+    navigator.geolocation.getCurrentPosition(hasLocation, error);
+  }
+
+  function hasLocation (position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    setLocationMarker([longitude, latitude]);
+  }
+
+  function error (error) {
+    console.log(error);
+  }
+
+  function setLocationMarker (locationArray) {
+    map.setCenter(locationArray);
+    const marker = new mapboxgl.Marker({
+      color: 'red',
+      offset: {
+        x: -20,
+        y: -20
+      }
+    })
+      .setLngLat(locationArray)
+      .addTo(map);
+
+    map.setZoom(17);
+  }
+
+  function setTortillaMarker () {
+    const latLngElement = document.querySelector('p.coordinates');
+    const coordinatesArray = latLngElement.innerText.split(',');
+    const marker = new mapboxgl.Marker({
+      color: 'black'
+    })
+      .setLngLat(coordinatesArray)
+      .addTo(map);
+  }
+
+  setTortillaMarker();
 };
 
 window.addEventListener('load', main);
