@@ -1,23 +1,29 @@
-<h1>Las Tortillas</h1>
+<section class="section container">
 
-<ul>
-  {{#each tortillas}}
-    <li> 
-      <a href="/tortillas/{{this._id}}">{{this.name}}</a>
-    </li>
-  {{/each}}
-</ul>
+  <h1 class="title">Las Tortillas</h1>
 
-<form method="GET" id="search-tortilla" action="/api/tortillas">
+  <ul class="list is-hoverable">
+    {{#each tortillas}}
+      <li > 
+        <a class="list-item" href="/tortillas/{{this._id}}">{{this.name}}</a>
+      </li>
+    {{/each}}
+  </ul>
 
-  <div class="field" >
-    <label>Buscar por ususario</label>
-    <input type="text" name="username"/>
-  </div>
+  <form method="GET" id="search-tortilla" action="/api/tortillas">
 
-  <div class="field submit">
-    <button type="submit">Buscar</button>
-  </div>
-</form>
+    <div class="field">
+      <label class="label">Buscar por usuario</label>
+      <div class="control">
+        <input class="input" type="text" name="username"/>
+      </div>
+    </div>
+
+    <div class="field submit">
+      <button class="button is-link" type="submit">Buscar</button>
+    </div>
+  </form>
+
+</section>
 
 <script src="/javascripts/index.js"></script>
