@@ -39,4 +39,29 @@ router.post('/tortillas/create', async (req, res, next) => {
   }
 });
 
+router.put('/tortillas/:id/edit', async (req, res, next) => {
+  const { name, special, size, longitude, latitude, imageUrl } = req.body;
+  if (!name || !special || !size || !longitude || !latitude || !imageUrl) {
+    res.status(400);
+    res.json({ message: 'Make sure you include all the fields' });
+  }
+  const { id } = req.params;
+  const tortilla = {
+    name,
+    special,
+    size,
+    location: {
+      type: 'Point',
+      coordinates: [longitude, latitude]
+    },
+    imageUrl
+  };
+  try {
+    await Tortilla.findByIdAndUpdate(id, tortilla);
+    res.json({ message: 'Tortilla updated' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
