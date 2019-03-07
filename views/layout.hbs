@@ -4,23 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  {{!-- <link rel="stylesheet" href="/stylesheets/style.css"> --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <title>TortillApp</title>
 </head>
 <body>
-  <nav>
-    {{#if currentUser}}
-    <div>
-      <p>{{currentUser.username}}</p>
-      <form action="/auth/logout" method="POST">
-        <button type="submit">Logout</button>
-      </form>
-    </div>
-    {{else}}
-      <a href="/auth/signup">Signup</a>
-      <a href="/auth/login">Login</a>
-    {{/if}}
-  </nav>
+  {{> nav}}
   {{{body}}}
+  <script src="/javascripts/burger-menu.js"></script>
 </body>
 </html>

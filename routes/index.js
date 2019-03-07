@@ -4,6 +4,7 @@ const router = express.Router();
 const Tortilla = require('../models/Tortilla');
 
 const { requireUser } = require('../middlewares/auth');
+const { requirePicture } = require('../middlewares/creation');
 
 const parser = require('../helpers/file-upload');
 
@@ -35,8 +36,10 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/new', requireUser, (req, res, next) => {
-  console.log(req);
-  res.render('tortillas/create-edit');
+  const data = {
+    messages: req.flash('validation')
+  };
+  res.render('tortillas/create-edit', data);
 });
 
 router.get('/tortillas/:id/edit', requireUser, async (req, res, next) => {
@@ -68,7 +71,7 @@ router.post('/tortillas/:id/delete', requireUser, async (req, res, next) => {
   }
 });
 
-router.post('/', requireUser, parser.single('image'), async (req, res, next) => {
+router.post('/', requireUser, parser.single('image'), requirePicture, async (req, res, next) => {
   const { _id, name, special, size, longitude, latitude } = req.body;
   const tortilla = {
     name,
