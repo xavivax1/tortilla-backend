@@ -64,4 +64,15 @@ router.put('/tortillas/:id/edit', async (req, res, next) => {
   }
 });
 
+router.delete('/tortillas/:id/delete', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await Tortilla.findByIdAndDelete(id);
+    res.json({message: 'Tortilla deleted'});
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router;
