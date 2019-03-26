@@ -5,10 +5,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-
 const cors = require('cors');
 
-// const authRouter = require('./routes/auth');
 const apiRouter = require('./routes/api');
 
 const app = express();

@@ -19,6 +19,26 @@ router.get('/tortillas', async (req, res, next) => {
   }
 });
 
+/* GET home page. */
+router.get('/tortillas/:id', async (req, res, next) => {
+  // const { username } = req.query;
+
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const tortilla = await Tortilla.findById(id);
+    if (!tortilla) {
+      res.status(404);
+      res.json({ message: 'Tortilla id not found' });
+      return;
+    }
+    res.json(tortilla);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 router.post('/tortillas', async (req, res, next) => {
   const tortilla = req.body;
   if (!tortilla.size || !tortilla.name || !tortilla.special) {
@@ -40,6 +60,7 @@ router.put('/tortillas/:id', async (req, res, next) => {
   if (!name || !special || !size || !imageUrl) {
     res.status(400);
     res.json({ message: 'Make sure you include all the fields' });
+    return;
   }
   const { id } = req.params;
   const tortilla = {
